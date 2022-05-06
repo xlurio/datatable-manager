@@ -1,13 +1,15 @@
-package com.calegario.dbmanager;
+package com.calegario.dtmanager;
 
-import junit.framework.*;
+import static org.junit.Assert.*;
+import org.junit.*;
 import java.util.*;
 import java.lang.AssertionError;
-import com.calegario.dbmanager.DBManager;
+import com.calegario.dtmanager.DTManager;
 
 
-class DTManagerTest extends TestCase {
+public class DTManagerTests {
 
+    @Test
     public void testGetLastObjects() {
         /**
          * Test getting the most recent item from a table (List<String[])
@@ -21,12 +23,13 @@ class DTManagerTest extends TestCase {
             new ArrayList<String[]>(sampleDTEarliest());
         // Result
         List<String[]> result = new ArrayList<String[]>(
-            DBManager.getLastObjects(table, 0, 1)
+            DTManager.getLastObjects(table, 0, 1)
         );
         // Assertions
         getTableAssertions(expectedTable, unexpectedTable, result);
     }
 
+    @Test
     public void testFilterTable() {
         /**
          * Test filtering a table by a value inside a column
@@ -38,7 +41,7 @@ class DTManagerTest extends TestCase {
         List<String[]> unexpectedTable = new ArrayList<String[]>(sampleDTBen());
         // Result
         List<String[]> result = new ArrayList<String[]>(
-            DBManager.filterTable(table, "John", 0)
+            DTManager.filterTable(table, "John", 0)
         );
         // Assertions
         getTableAssertions(expectedTable, unexpectedTable, result);
@@ -48,22 +51,18 @@ class DTManagerTest extends TestCase {
                                     List<String[]> unexpectedTable,
                                     List<String[]> result)
     {
-        try{
-            for (int i = 0; i < result.size(); i++) {
-                for (int j = 0; j < expectedTable.size(); i++){
-                    assertTrue(Arrays.equals(
-                        result.get(i),
-                        expectedTable.get(j)
-                    ));
-                    assertFalse(Arrays.equals(
-                        result.get(i),
-                        unexpectedTable.get(j)
-                    ));
-                }
+        assertEquals(expectedTable.size(), result.size());
+        for (int i = 0; i < result.size(); i++) {
+            for (int j = 0; j < expectedTable.size(); i++){
+                assertTrue(Arrays.equals(
+                    result.get(i),
+                    expectedTable.get(j)
+                ));
+                assertFalse(Arrays.equals(
+                    result.get(i),
+                    unexpectedTable.get(j)
+                ));
             }
-
-        } catch (AssertionError e) {
-            e.printStackTrace();
         }
     }
 
