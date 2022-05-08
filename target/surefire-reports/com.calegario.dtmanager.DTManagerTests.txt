@@ -1,14 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.calegario.dtmanager.DTManagerTests
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.022 s <<< FAILURE! - in com.calegario.dtmanager.DTManagerTests
-testGetLastObjects(com.calegario.dtmanager.DTManagerTests)  Time elapsed: 0 s  <<< FAILURE!
-java.lang.AssertionError: expected:<2> but was:<0>
-	at com.calegario.dtmanager.DTManagerTests.getTableAssertions(DTManagerTests.java:55)
-	at com.calegario.dtmanager.DTManagerTests.testGetLastObjects(DTManagerTests.java:29)
-
-testFilterTable(com.calegario.dtmanager.DTManagerTests)  Time elapsed: 0 s  <<< FAILURE!
-java.lang.AssertionError: expected:<2> but was:<0>
-	at com.calegario.dtmanager.DTManagerTests.getTableAssertions(DTManagerTests.java:55)
-	at com.calegario.dtmanager.DTManagerTests.testFilterTable(DTManagerTests.java:47)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s - in com.calegario.dtmanager.DTManagerTests

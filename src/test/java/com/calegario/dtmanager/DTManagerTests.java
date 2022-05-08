@@ -1,9 +1,11 @@
 package com.calegario.dtmanager;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import java.time.format.*;
 import java.util.*;
+import org.junit.*;
+import static org.junit.Assert.*;
 import java.lang.AssertionError;
+import java.time.temporal.ChronoField;
 import com.calegario.dtmanager.DTManager;
 
 
@@ -16,6 +18,10 @@ public class DTManagerTests {
         **/
         // Test parameters
         List<String[]> table = new ArrayList<String[]>(sampleDT());
+        DateTimeFormatter formatter =
+            new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd HH:mm:ss")
+            .toFormatter();
         // Expected results
         List<String[]> expectedTable =
             new ArrayList<String[]>(sampleDTLastOnly());
@@ -23,7 +29,7 @@ public class DTManagerTests {
             new ArrayList<String[]>(sampleDTEarliest());
         // Result
         List<String[]> result = new ArrayList<String[]>(
-            DTManager.getLastObjects(table, 0, 1)
+            DTManager.getLastObjects(table, 0, 1, formatter)
         );
         // Assertions
         getTableAssertions(expectedTable, unexpectedTable, result);
@@ -47,22 +53,38 @@ public class DTManagerTests {
         getTableAssertions(expectedTable, unexpectedTable, result);
     }
 
+    @Test
+    public void testInverseFilterTable() {
+        /**
+         * Test filtering a table by a value inside a column
+        **/
+        // Test parameters
+        List<String[]> table = new ArrayList<String[]>(sampleDT());
+        // Expected results
+        List<String[]> expectedTable = new ArrayList<String[]>(sampleDTBen());
+        List<String[]> unexpectedTable = new ArrayList<String[]>(sampleDTJohn());
+        // Result
+        List<String[]> result = new ArrayList<String[]>(
+            DTManager.inverseFilterTable(table, "John", 0)
+        );
+        // Assertions
+        getTableAssertions(expectedTable, unexpectedTable, result);
+    }
+
     private void getTableAssertions(List<String[]> expectedTable,
                                     List<String[]> unexpectedTable,
                                     List<String[]> result)
     {
         assertEquals(expectedTable.size(), result.size());
         for (int i = 0; i < result.size(); i++) {
-            for (int j = 0; j < expectedTable.size(); i++){
-                assertTrue(Arrays.equals(
-                    result.get(i),
-                    expectedTable.get(j)
-                ));
-                assertFalse(Arrays.equals(
-                    result.get(i),
-                    unexpectedTable.get(j)
-                ));
-            }
+            assertTrue(Arrays.equals(
+                result.get(i),
+                expectedTable.get(i)
+            ));
+            assertFalse(Arrays.equals(
+                result.get(i),
+                unexpectedTable.get(i)
+            ));
         }
     }
 
