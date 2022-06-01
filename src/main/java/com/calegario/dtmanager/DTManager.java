@@ -7,7 +7,6 @@ import java.time.*;
 public class DTManager{
 
     public static List<String[]> getLastObjects(List<String[]> table,
-                                                int toFilterIndex,
                                                 int dateIndex,
                                                 DateTimeFormatter dtFormatter)
     {
@@ -15,29 +14,23 @@ public class DTManager{
          * Returns a list with only unique items filtered by the instances with
          the last date
         **/
-        List<String[]> list = new ArrayList<String[]>();
-        List<String[]> currData = new ArrayList<String[]>();
-        LocalDateTime date;
-        String dateStr;
+        String[] currentRow;
+        String currentDateAsText;
+        LocalDateTime currentDate;
         List<LocalDateTime> dates = new ArrayList<LocalDateTime>();
-        int lastDateIndex;
-        for (int i = 0; i < table.size(); i++) {
-            currData = filterTable(table,
-                                   table.get(i)[toFilterIndex],
-                                   toFilterIndex);
-            dates = new ArrayList<LocalDateTime>();
-            for (int j = 0; j < currData.size(); j++) {
-                date = LocalDateTime.parse(currData.get(j)[dateIndex],
-                                           dtFormatter);
-                dates.add(date);
-            }
-            lastDateIndex = dates.indexOf(Collections.max(dates));
-            list.add(currData.get(lastDateIndex));
-            table = inverseFilterTable(table,
-                                       table.get(i)[toFilterIndex],
-                                       toFilterIndex);
+        for (int row = 0; row < table.size(); row++) {
+            currentRow = table.get(row);
+            currentDateAsText = currentRow[dateIndex];
+            currentDate = LocalDateTime.parse(currentDateAsText,
+                                              dtFormatter);
+            dates.add(currentDate);
         }
-        return list;
+        LocalDateTime mostRecentDate = Collections.max(dates);
+        int mostRecentDateIndex = dates.indexOf(mostRecentDate);
+        String[] mostRecentRow = table.get(mostRecentDateIndex);
+        List<String[]> filteredTable = new ArrayList<String[]>();
+        filteredTable.add(mostRecentRow);
+        return filteredTable;
     }
 
     public static List<String[]> filterTable(List<String[]> table,

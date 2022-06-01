@@ -29,7 +29,7 @@ public class DTManagerTests {
             new ArrayList<String[]>(sampleDTEarliest());
         // Result
         List<String[]> result = new ArrayList<String[]>(
-            DTManager.getLastObjects(table, 0, 1, formatter)
+            DTManager.getLastObjects(table, 1, formatter)
         );
         // Assertions
         getTableAssertions(expectedTable, unexpectedTable, result);
@@ -146,8 +146,13 @@ public class DTManagerTests {
             "Ben",
             "2021-05-05 10:15:30"
         };
+        String[] row3 = {
+            "John",
+            "2021-05-05 10:15:30"
+        };
         list.add(row1);
         list.add(row2);
+        list.add(row3);
         return list;
     }
 
@@ -157,15 +162,10 @@ public class DTManagerTests {
         **/
         List<String[]> list = new ArrayList<String[]>();
         String[] row1 = {
-            "John",
-            "2021-05-05 10:15:30"
-        };
-        String[] row2 = {
             "Ben",
             "2022-05-05 10:15:30"
         };
         list.add(row1);
-        list.add(row2);
         return list;
     }
 
